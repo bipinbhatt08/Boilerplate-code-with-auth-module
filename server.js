@@ -1,0 +1,23 @@
+import "dotenv/config"
+import app from "./src/app.js"
+import connectDB from "./src/common/config/db.js"
+
+const PORT = process.env.PORT || 5000
+
+const start = async() => {
+    console.log("MONGOGOGOGOGO",process.env.MONGODB_URI)
+    //connect to database
+    await connectDB()
+    app.listen(PORT,()=>{
+        console.log(`Server is running at port ${PORT} in ${process.env.NODE_ENV} mode`)
+
+    })
+}
+
+start().catch((err)=>{ //try catch yeta lagihalyo ni haina ta
+    console.error("Failed to start server.",err)
+    process.exit(1)
+})
+
+
+
