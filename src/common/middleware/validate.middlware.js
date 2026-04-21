@@ -2,10 +2,10 @@
 //That class has a validate() method and a schema. they are static
 
 //Inside this  middleware, we call DtoClass.validate() which uses its own schema to validate data.
-
+import ApiError from '../utils/api-errror.js'
 const validate = (DtoClass)=>{
     return (req,res,next)=>{
-       const {errors,value} = DtoClass.validate(req)
+       const {errors,value} = DtoClass.validate(req.body)
        if(errors){
         throw ApiError.badRequest(errors.join("; "))
        }

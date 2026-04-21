@@ -1,5 +1,7 @@
+import ApiError from "../../common/utils/api-errror.js"
 import { verifyAccessToken } from "../../common/utils/jwt.utils.js"
 import User from './auth.model.js'
+
 
 
 const authenticate = async(req,res,next) =>{

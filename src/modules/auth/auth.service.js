@@ -2,8 +2,10 @@ import { sendResetPasswordEmail, sendVerificationEmail } from '../../common/conf
 import crypto from 'crypto'
 import { generateAccessToken, generateRefreshToken, generateResetToken, verifyRefreshToken } from '../../common/utils/jwt.utils.js'
 import User from './auth.model.js'
+import ApiError from '../../common/utils/api-errror.js'
+import cookieParser from 'cookie-parser'
 
-const hashToken =  (token)=>crypto.createHash("sha256").update(rawToken).digest("hex")
+const hashToken =  (token)=>crypto.createHash("sha256").update(token).digest("hex")
 
 const register = async ({email,password,name,role})=>{
 
@@ -33,6 +35,7 @@ const register = async ({email,password,name,role})=>{
 
     // : send email to user with token : rawtoken
     try {
+        console.log("I am inside send email")
         await sendVerificationEmail(email,name,rawToken)
     } catch (error) {
         console.log("Error sending mail:", error)
@@ -100,7 +103,6 @@ const refresh = async (token) => {// this is refresh token
 
     user.refreshToken = hashToken(refreshToken)
     await user.save({validateBeforeSave:false})
-
 
     return {accessToken,refreshToken}
 

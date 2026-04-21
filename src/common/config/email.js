@@ -16,10 +16,12 @@ const transporter = nodemailer.createTransport({
 
 
 const sendMail = async(to,subject,html) => {
+  
   await transporter.sendMail({
     from: `${process.env.SMTP_FROM_EMAIL}`,
     to,subject,html
   })
+  console.log("Email send to :",to)
 }
 
 const sendVerificationEmail = async(email,name,token) => {

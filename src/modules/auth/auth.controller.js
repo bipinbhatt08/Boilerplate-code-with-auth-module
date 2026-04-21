@@ -21,7 +21,12 @@ const login = async(req,res) => {
 
 const refreshToken = async(req,res) =>{
     const token = req.cookies?.refreshToken;
-    const {accessToken} = await authService.refresh(token)
+    const {accessToken,refreshToken} = await authService.refresh(token)
+    res.cookie("refreshToken",refreshToken,{
+        httpOnly: true,
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    })
     ApiResponse.ok(res, "Token refreshed", { accessToken });
 }
 
@@ -32,7 +37,7 @@ const forgotPassword = async(req,res) =>{
 }
 
 const resetPassword = async (req, res) => {
-  await authService.resetPassword(req.params.token, req.body.password);
+  await authService.resetPassword(req.params.token, req.body?.password);
   ApiResponse.ok(res, "Password reset successful");
 };
 
